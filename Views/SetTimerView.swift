@@ -11,6 +11,7 @@ import SwiftData
 struct SetTimerView: View {
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
     
     private var sessions: [PomodoroSetting] = [
         PomodoroSetting(title: "Light Work Session", focusTime: 15, restTime: 3),
@@ -20,7 +21,7 @@ struct SetTimerView: View {
     ]
     
     @State private var selectedSessionID: PomodoroSetting.ID?
-    
+    @State private var timerToSave: Timer?
     
     var body: some View {
         
@@ -42,8 +43,10 @@ struct SetTimerView: View {
                         withAnimation(.spring()) {
                             if isSelected {
                                 self.selectedSessionID = nil
+                                self.timerToSave = nil
                             } else {
                                 self.selectedSessionID = session.id
+                                self.timerToSave = Timer(startTime: Date(), focusTime: session.focusTime, restTime: session.restTime)
                             }
                         }
                     }
@@ -63,6 +66,13 @@ struct SetTimerView: View {
         Spacer()
 
         Button {
+            guard let timer = timerToSave else {
+                dismiss()
+                return
+            }
+            
+            context.insert(timer)
+            
             dismiss()
         } label: {
             Image(systemName: "checkmark")
@@ -75,6 +85,7 @@ struct SetTimerView: View {
                         .frame(width: 150, height: 80)
                 }
         }
+        .disabled(selectedSessionID == nil)
         .padding()
     }
 }

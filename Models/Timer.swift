@@ -10,11 +10,13 @@ import SwiftData
 
 @Model
 final class Timer {
-    var startDate: Date?
-    var duration: Int
+    var startTime: Date?
+    var focusTime: Int
+    var restTime: Int
     
-    init(startDate: Date? = nil, duration: Int) {
-        self.startDate = startDate
-        self.duration = duration
+    init(startTime: Date? = nil, focusTime: Int, restTime: Int) {
+        self.startTime = startTime
+        self.focusTime = focusTime
+        self.restTime = restTime
     }
 }
