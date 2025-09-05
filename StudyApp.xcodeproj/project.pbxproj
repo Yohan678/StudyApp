@@ -16,6 +16,16 @@
 			path = StudyApp;
 			sourceTree = "<group>";
 		};
+		DB7BA2692E62AC6E009FBDA1 /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DB7BA26A2E62AC73009FBDA1 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +42,8 @@
 		DB7BA2502E62AC45009FBDA1 = {
 			isa = PBXGroup;
 			children = (
+				DB7BA26A2E62AC73009FBDA1 /* Models */,
+				DB7BA2692E62AC6E009FBDA1 /* Views */,
 				DB7BA25B2E62AC45009FBDA1 /* StudyApp */,
 				DB7BA25A2E62AC45009FBDA1 /* Products */,
 			);
@@ -62,6 +74,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				DB7BA25B2E62AC45009FBDA1 /* StudyApp */,
+				DB7BA2692E62AC6E009FBDA1 /* Views */,
+				DB7BA26A2E62AC73009FBDA1 /* Models */,
 			);
 			name = StudyApp;
 			packageProductDependencies = (
