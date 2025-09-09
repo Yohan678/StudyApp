@@ -6,13 +6,31 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DB7BA3CE2E6FD9A6009FBDA1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BA3CD2E6FD9A3009FBDA1 /* Extensions.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		DB7BA2592E62AC45009FBDA1 /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB7BA3CD2E6FD9A3009FBDA1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DB7BA34A2E6BB08A009FBDA1 /* Exceptions for "StudyApp" folder in "StudyApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DB7BA2582E62AC45009FBDA1 /* StudyApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DB7BA25B2E62AC45009FBDA1 /* StudyApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DB7BA34A2E6BB08A009FBDA1 /* Exceptions for "StudyApp" folder in "StudyApp" target */,
+			);
 			path = StudyApp;
 			sourceTree = "<group>";
 		};
@@ -24,6 +42,11 @@
 		DB7BA26A2E62AC73009FBDA1 /* Models */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Models;
+			sourceTree = "<group>";
+		};
+		DB7BA34B2E6BB0CE009FBDA1 /* Fonts */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -42,6 +65,8 @@
 		DB7BA2502E62AC45009FBDA1 = {
 			isa = PBXGroup;
 			children = (
+				DB7BA3CD2E6FD9A3009FBDA1 /* Extensions.swift */,
+				DB7BA34B2E6BB0CE009FBDA1 /* Fonts */,
 				DB7BA26A2E62AC73009FBDA1 /* Models */,
 				DB7BA2692E62AC6E009FBDA1 /* Views */,
 				DB7BA25B2E62AC45009FBDA1 /* StudyApp */,
@@ -76,6 +101,7 @@
 				DB7BA25B2E62AC45009FBDA1 /* StudyApp */,
 				DB7BA2692E62AC6E009FBDA1 /* Views */,
 				DB7BA26A2E62AC73009FBDA1 /* Models */,
+				DB7BA34B2E6BB0CE009FBDA1 /* Fonts */,
 			);
 			name = StudyApp;
 			packageProductDependencies = (
@@ -133,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB7BA3CE2E6FD9A6009FBDA1 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +294,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudyApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -298,6 +326,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudyApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

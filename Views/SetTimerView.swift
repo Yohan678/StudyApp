@@ -21,18 +21,20 @@ struct SetTimerView: View {
     ]
     
     @State private var selectedSessionID: PomodoroSetting.ID?
-    @State private var timerToSave: Timer?
+    @State private var timerToSave: TimerManager?
     
     var body: some View {
         
         Spacer()
         
         ForEach(sessions) { session in
-            let isSelected = (session.id == selectedSessionID)
+            
+            let isSelected = ( session.id == selectedSessionID )
+            
             VStack(spacing: 16) {
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(isSelected ? Color.black : Color.green)
-                    .frame(width: 350, height: 80)
+                    .fill(isSelected ? .black : .green)
+                    .frame(width: isSelected ? 380 : 340, height: isSelected ? 100 : 80)
                     .overlay(alignment: .center) {
                         Text(session.title)
                             .foregroundColor(.white)
@@ -46,7 +48,7 @@ struct SetTimerView: View {
                                 self.timerToSave = nil
                             } else {
                                 self.selectedSessionID = session.id
-                                self.timerToSave = Timer(startTime: Date(), focusTime: session.focusTime, restTime: session.restTime)
+                                self.timerToSave = TimerManager(startTime: Date(), focusTime: session.focusTime, restTime: session.restTime)
                             }
                         }
                     }
@@ -64,11 +66,22 @@ struct SetTimerView: View {
         }
         
         Spacer()
-
+        
         Button {
             guard let timer = timerToSave else {
                 dismiss()
                 return
+            }
+            
+            //delete existing timer in data to have only one timer
+            do {
+                let existingTimer = try context.fetch(FetchDescriptor<TimerManager>())
+                
+                for timer in existingTimer {
+                    context.delete(timer)
+                }
+            } catch {
+                print("failed to delete existing timers: \(error)")
             }
             
             context.insert(timer)
@@ -81,7 +94,7 @@ struct SetTimerView: View {
                 .font(.title)
                 .background {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(.blue)
+                        .fill(selectedSessionID == nil ? .gray : .blue)
                         .frame(width: 150, height: 80)
                 }
         }
