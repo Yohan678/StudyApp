@@ -23,14 +23,22 @@ struct MainView: View {
         NavigationView {
             VStack {
                 Spacer()
-                if let _ = timers.first {
-                    Text(remainingTime.formatToMMSS())
+                
+                ZStack {
+                    MyProgressBar()
+                        .frame(width: 300, height: 300)
+                    
+                    if let entity = timers.first {
+                        Text(entity.remainingTime > 0
+                             ? entity.remainingTime.formatToMMSS()
+                             : (entity.focusTime * 60).formatToMMSS()
+                        )
                         .font(Font.custom("digital-7", size: 120))
                         .shadow(radius: 10)
-                } else {
-                    Text("12:00")
-                        .font(Font.custom("digital-7", size: 120))
-                        .shadow(radius: 10)
+                        
+                    } else {
+                        Text("No Timers Set")
+                    }
                 }
                 
                 Spacer()
@@ -39,6 +47,9 @@ struct MainView: View {
                     //MARK: Set Timer View
                     Button {
                         isShowingSheet.toggle()
+                        timers.first?.pause()
+                        
+                        try? context.save()
                     } label: {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(.blue)
@@ -57,30 +68,27 @@ struct MainView: View {
                         SetTimerView()
                     }
                     
-                    //MARK: Start or Stop Timer
+                    //MARK: Start / Pause
                     Button {
-                        if isRunning {
-                                // Stop
-                                isRunning = false
-                                if let entity = timers.first {
-                                    entity.startTime = nil
-                                    try? context.save()
-                                }
+                        if let entity = timers.first {
+                            if entity.isRunning {
+                                entity.pause()
                             } else {
-                                // Start
-                                isRunning = true
-                                if let entity = timers.first {
-                                    entity.startTime = Date()
-                                    try? context.save()
+                                if entity.remainingTime == entity.totalTimeInSec {
+                                    entity.start()
+                                } else {
+                                    entity.resume()
                                 }
                             }
+                            try? context.save()
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(.blue)
                             .frame(width: 150, height: 80)
                             .shadow(radius: 8)
                             .overlay {
-                                Image(systemName: isRunning ? "stop.fill" : "play.fill")
+                                Image(systemName: (timers.first?.isRunning ?? false) ? "pause.fill" : "play.fill")
                                     .foregroundColor(.white)
                                     .bold()
                                     .font(.title)
@@ -95,46 +103,10 @@ struct MainView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
-            loadTimer()
+            timers.first?.loadState()
         }
         .onReceive(timer) { _ in
-            updateRemainingTime()
-        }
-    }
-    
-    //updates remaining time by subtracting 1 by every second
-    func updateRemainingTime() {
-        guard isRunning, let entity = timers.first, let startTime = entity.startTime else { return }
-        
-        let elapsed = Int(Date().timeIntervalSince(startTime))
-        
-        let totalRemainingTime = entity.isFocusing ? entity.focusTime : entity.restTime
-        
-        let totalRemainingTimeInSec = totalRemainingTime * 60
-        
-        remainingTime = max(totalRemainingTimeInSec - elapsed, 0)
-        
-        if remainingTime == 0 {
-            isRunning = false
-            entity.startTime = nil
-            try? context.save()
-        }
-    }
-    
-    //loads timer when active from background or inactive
-    func loadTimer() {
-        guard let entity = timers.first else { return }
-        
-        if let startTime = entity.startTime {
-            let elapsed = Int(Date().timeIntervalSince(startTime))
-            
-            let totalRemainingTime = entity.isFocusing ? entity.focusTime : entity.restTime
-            
-            let totalRemainingTimeInSec = totalRemainingTime * 60
-            
-            remainingTime = max(totalRemainingTimeInSec - elapsed, 0)
-            
-            isRunning = remainingTime > 0
+            timers.first?.updateRemainingTime()
         }
     }
 }
