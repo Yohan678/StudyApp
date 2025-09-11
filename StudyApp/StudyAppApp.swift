@@ -26,6 +26,7 @@ struct StudyAppApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .background(Color("CustomColor1"))
         }
         .modelContainer(sharedModelContainer)
     }

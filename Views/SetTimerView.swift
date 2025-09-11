@@ -25,81 +25,92 @@ struct SetTimerView: View {
     
     var body: some View {
         
-        Spacer()
-        
-        ForEach(sessions) { session in
+        ZStack {
+            Color.customColor1
+                .ignoresSafeArea()
             
-            let isSelected = ( session.id == selectedSessionID )
-            
-            VStack(spacing: 16) {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(isSelected ? .black : .green)
-                    .frame(width: isSelected ? 380 : 340, height: isSelected ? 100 : 80)
-                    .overlay(alignment: .center) {
-                        Text(session.title)
-                            .foregroundColor(.white)
-                            .font(.title)
-                            .bold()
-                    }
-                    .onTapGesture {
-                        withAnimation(.spring()) {
-                            if isSelected {
-                                self.selectedSessionID = nil
-                                self.timerToSave = nil
-                            } else {
-                                self.selectedSessionID = session.id
-                                self.timerToSave = TimerManager(startTime: Date(), focusTime: session.focusTime, restTime: session.restTime)
+            VStack {
+                Spacer()
+                
+                ForEach(sessions) { session in
+                    
+                    let isSelected = ( session.id == selectedSessionID )
+                    
+                    VStack(spacing: 16) {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(isSelected ? .customColor22 : .customColor21)
+                            .frame(width: isSelected ? 380 : 340, height: isSelected ? 100 : 80)
+                            .overlay(alignment: .center) {
+                                Text(session.title)
+                                    .foregroundColor(.white)
+                                    .font(.title)
+                                    .bold()
                             }
+                            .onTapGesture {
+                                withAnimation(.spring()) {
+                                    if isSelected {
+                                        self.selectedSessionID = nil
+                                        self.timerToSave = nil
+                                    } else {
+                                        self.selectedSessionID = session.id
+                                        self.timerToSave = TimerManager(startTime: Date(), focusTime: session.focusTime, restTime: session.restTime)
+                                    }
+                                }
+                            }
+                            .shadow(radius: 10)
+                            .padding(8)
+                        
+                        if isSelected {
+                            Text("""
+                                • Focus for **\(session.focusTime) minutes**
+                                • Rest for **\(session.restTime) minutes**
+                                """)
+                            .foregroundColor(.customColor22)
+                            .font(.system(size: 20))
+                            .padding()
+                            .shadow(radius: 5)
+                            .transition(.opacity.combined(with: .scale))
                         }
                     }
-                    .shadow(radius: 10)
-                    .padding(8)
-                
-                if isSelected {
-                    Text("Focus for **\(session.focusTime)** minutes & Rest for **\(session.restTime)** minutes")
-                        .foregroundColor(.blue)
-                        .padding()
-                        .shadow(radius: 5)
-                        .transition(.opacity.combined(with: .scale))
                 }
+                
+                Spacer()
+                
+                Button {
+                    guard let timer = timerToSave else {
+                        dismiss()
+                        return
+                    }
+                    
+                    //delete existing timer in data to have only one timer
+                    do {
+                        let existingTimer = try context.fetch(FetchDescriptor<TimerManager>())
+                        
+                        for timer in existingTimer {
+                            context.delete(timer)
+                        }
+                    } catch {
+                        print("failed to delete existing timers: \(error)")
+                    }
+                    
+                    context.insert(timer)
+                    
+                    dismiss()
+                } label: {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.white)
+                        .bold()
+                        .font(.title)
+                        .background {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(selectedSessionID == nil ? .gray : .blue)
+                                .frame(width: 150, height: 80)
+                        }
+                }
+                .disabled(selectedSessionID == nil)
+                .padding()
             }
         }
-        
-        Spacer()
-        
-        Button {
-            guard let timer = timerToSave else {
-                dismiss()
-                return
-            }
-            
-            //delete existing timer in data to have only one timer
-            do {
-                let existingTimer = try context.fetch(FetchDescriptor<TimerManager>())
-                
-                for timer in existingTimer {
-                    context.delete(timer)
-                }
-            } catch {
-                print("failed to delete existing timers: \(error)")
-            }
-            
-            context.insert(timer)
-            
-            dismiss()
-        } label: {
-            Image(systemName: "checkmark")
-                .foregroundColor(.white)
-                .bold()
-                .font(.title)
-                .background {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(selectedSessionID == nil ? .gray : .blue)
-                        .frame(width: 150, height: 80)
-                }
-        }
-        .disabled(selectedSessionID == nil)
-        .padding()
     }
 }
 
