@@ -15,13 +15,14 @@ struct MyProgressBar: View {
     var body: some View {
         
         if let timer = timers.first {
-            let color = timer.isRunning ? Color.green : Color.yellow
+            let color = timer.isRunning ? Color.customColor1 : Color.yellow
             ZStack {
                 Circle()
                     .stroke(
-                        color.opacity(0.5),
+                        color.opacity(0.4),
                         lineWidth: 30
                     )
+                
                 Circle()
                     .trim(from: 0, to: timer.timeProgress)
                     .stroke(
@@ -37,7 +38,7 @@ struct MyProgressBar: View {
         } else {
             Circle()
                 .stroke(
-                    Color.green,
+                    Color.customColor1,
                     lineWidth: 30
                 )
                 .rotationEffect(.degrees(-90))

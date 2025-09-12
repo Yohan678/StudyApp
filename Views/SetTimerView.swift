@@ -17,7 +17,8 @@ struct SetTimerView: View {
         PomodoroSetting(title: "Light Work Session", focusTime: 15, restTime: 3),
         PomodoroSetting(title: "Standard Work Session", focusTime: 25, restTime: 5),
         PomodoroSetting(title: "Deep Work Session", focusTime: 50, restTime: 10),
-        PomodoroSetting(title: "Extreme Work Session", focusTime: 90, restTime: 20)
+        PomodoroSetting(title: "Extreme Work Session", focusTime: 90, restTime: 20),
+        PomodoroSetting(title: "Testing", focusTime: 2, restTime: 1)
     ]
     
     @State private var selectedSessionID: PomodoroSetting.ID?
@@ -26,7 +27,7 @@ struct SetTimerView: View {
     var body: some View {
         
         ZStack {
-            Color.customColor1
+            Color.customColor4
                 .ignoresSafeArea()
             
             VStack {

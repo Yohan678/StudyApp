@@ -8,8 +8,10 @@
 import SwiftUI
 import SwiftData
 import Combine
+import UserNotifications
 
 struct MainView: View {
+    
     @Environment(\.modelContext) private var context
     @Query(sort: \TimerManager.startTime, order: .reverse) private var timers: [TimerManager]
     @State private var isShowingSheet: Bool = false
@@ -20,22 +22,29 @@ struct MainView: View {
     @State private var isRunning: Bool = false
     
     var body: some View {
+        
         NavigationStack {
+            
             ZStack {
-                Color.customColor1
+                Color.customColor4
                     .ignoresSafeArea()
                 
                 VStack {
+                    
                     Spacer()
                     
                     if let entity = timers.first {
                         Text(entity.isFocusing ? "Let's Focus 🔥" : "Taking a break 😴")
                             .padding()
-                            .foregroundColor(.white)
+                            .foregroundColor(.customColor1)
                             .font(.system(size: 21))
                     }
                     
                     ZStack {
+                        Circle()
+                            .fill((timers.first?.isRunning ?? false) ? .customColor1.opacity(0.4) : .yellow.opacity(0.4))
+                            .frame(width: 290, height: 290)
+                        
                         MyProgressBar()
                             .frame(width: 350, height: 320)
                         
@@ -44,8 +53,8 @@ struct MainView: View {
                                  ? entity.remainingTime.formatToMMSS()
                                  : (entity.focusTime * 60).formatToMMSS()
                             )
-                            .font(Font.custom("digital-7", size: 120))
-                            .foregroundColor(.white)
+                            .font(Font.custom("digital-7", size: 110))
+                            .foregroundColor(.customColor1)
                             .shadow(radius: 10)
                             
                         } else {
@@ -65,12 +74,12 @@ struct MainView: View {
                             try? context.save()
                         } label: {
                             RoundedRectangle(cornerRadius: 16)
-                                .fill(.customColor3)
+                                .fill(.customColor21)
                                 .frame(width: 150, height: 80)
                                 .shadow(radius: 8)
                                 .overlay {
                                     Image(systemName: "timer")
-                                        .foregroundColor(.customColor1)
+                                        .foregroundColor(.customColor4)
                                         .bold()
                                         .font(.title)
                                 }
@@ -97,12 +106,12 @@ struct MainView: View {
                             }
                         } label: {
                             RoundedRectangle(cornerRadius: 16)
-                                .fill(.customColor3)
+                                .fill((timers.first?.isRunning ?? false) ? .customColor21 : .yellow)
                                 .frame(width: 150, height: 80)
                                 .shadow(radius: 8)
                                 .overlay {
                                     Image(systemName: (timers.first?.isRunning ?? false) ? "pause.fill" : "play.fill")
-                                        .foregroundColor(.customColor1)
+                                        .foregroundColor(.customColor4)
                                         .bold()
                                         .font(.title)
                                 }
@@ -110,7 +119,7 @@ struct MainView: View {
                         .padding()
                     }
                     
-                    //MARK: For Testing
+                    //MARK: For Testing (Changing isFocusing)
 //                    Button {
 //                        timers.first?.isFocusing.toggle()
 //                        timers.first?.stop()
@@ -129,14 +138,22 @@ struct MainView: View {
                 .navigationTitle("POMODORO")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground (
-                    Color.customColor1, for: .navigationBar
+                    Color.customColor4, for: .navigationBar
                 )
                 .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarColorScheme(.dark, for: .navigationBar)
             }
         }
         .onAppear {
             timers.first?.loadState()
+            
+            //MARK: Ask for notification permission
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                if success {
+                    print("Alert Permission given")
+                } else if let error {
+                    print(error.localizedDescription)
+                }
+            }
         }
         .onReceive(timer) { _ in
             timers.first?.updateRemainingTime()
