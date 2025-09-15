@@ -12,7 +12,7 @@ import SwiftData
 struct StudyAppApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            TimerManager.self,
+            TimerManager.self, CycleCountManager.self, CycleItem.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

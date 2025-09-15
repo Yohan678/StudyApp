@@ -6,13 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		DB7BA3CE2E6FD9A6009FBDA1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BA3CD2E6FD9A3009FBDA1 /* Extensions.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		DB7BA2592E62AC45009FBDA1 /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB7BA3CD2E6FD9A3009FBDA1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -49,6 +44,11 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		DB7BA4BD2E78D004009FBDA1 /* Extensions */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 		DB7BA2502E62AC45009FBDA1 = {
 			isa = PBXGroup;
 			children = (
-				DB7BA3CD2E6FD9A3009FBDA1 /* Extensions.swift */,
+				DB7BA4BD2E78D004009FBDA1 /* Extensions */,
 				DB7BA34B2E6BB0CE009FBDA1 /* Fonts */,
 				DB7BA26A2E62AC73009FBDA1 /* Models */,
 				DB7BA2692E62AC6E009FBDA1 /* Views */,
@@ -102,6 +102,7 @@
 				DB7BA2692E62AC6E009FBDA1 /* Views */,
 				DB7BA26A2E62AC73009FBDA1 /* Models */,
 				DB7BA34B2E6BB0CE009FBDA1 /* Fonts */,
+				DB7BA4BD2E78D004009FBDA1 /* Extensions */,
 			);
 			name = StudyApp;
 			packageProductDependencies = (
@@ -159,7 +160,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB7BA3CE2E6FD9A6009FBDA1 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

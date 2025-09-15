@@ -10,6 +10,6 @@ import Foundation
 struct PomodoroSetting: Identifiable {
     let id = UUID()
     let title: String
-    let focusTime: Int
-    let restTime: Int
+    var focusTime: Int
+    var restTime: Int
 }

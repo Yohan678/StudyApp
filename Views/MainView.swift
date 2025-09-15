@@ -133,6 +133,10 @@ struct MainView: View {
 //                            }
 //                    }
                     
+                    NavigationLink(destination: HistoryGridView()) {
+                        Text("History")
+                    }
+                    
                     Spacer()
                 }
                 .navigationTitle("POMODORO")
@@ -156,7 +160,7 @@ struct MainView: View {
             }
         }
         .onReceive(timer) { _ in
-            timers.first?.updateRemainingTime()
+            timers.first?.updateRemainingTime(context: context)
         }
     }
 }

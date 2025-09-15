@@ -82,15 +82,16 @@ final class TimerManager {
     }
     
     //MARK: Updates remaining Time
-    func updateRemainingTime() {
+    @MainActor
+    func updateRemainingTime(context: ModelContext) {
         guard isRunning, let start = startTime else { return }
         
         let elapsed = elapsedTime + Int(Date().timeIntervalSince(start))
         remainingTime = max(totalTimeInSec - elapsed, 0)
         if remainingTime == 0 {
-//            let title = isFocusing ? "Time to take a break!" : "Time to focus!"
-//            let body = isFocusing ? "Good Job 👍" : "Let's Go!"
-//            sendImmediateNotification(title: title, body: body)
+            if isFocusing {
+                context.addStudyTime(seconds: focusTime)
+            }
             stop()
         }
     }
@@ -102,6 +103,8 @@ final class TimerManager {
         elapsedTime = 0
         remainingTime = totalTimeInSec
         isRunning = false
+        
+        cancelNotification()
     }
     
     //MARK: Loads data when application is active from inactive / background
@@ -139,8 +142,9 @@ final class TimerManager {
     }
     
     private func cancelNotification() {
-            // ID를 사용하여 예약된 특정 알림만 취소
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
             print("Scheduled notification is cancelled.")
         }
+    
+    
 }

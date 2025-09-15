@@ -74,7 +74,7 @@ struct SetTimerView: View {
                         }
                     }
                 }
-                
+                                
                 Spacer()
                 
                 Button {
