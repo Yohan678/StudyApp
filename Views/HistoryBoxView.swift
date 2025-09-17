@@ -11,8 +11,6 @@ struct HistoryBoxView: View {
     var completionDate: Date
     var totalStudiedTimes: Int
     
-    var randomColor: Color
-    
     var body: some View {
         RoundedRectangle(cornerRadius: 16)
             .fill(Color.customColor3)
@@ -30,7 +28,7 @@ struct HistoryBoxView: View {
             }
             .overlay(alignment: .top) {
                 UnevenRoundedRectangle(cornerRadii: .init(topLeading: 16, topTrailing: 16))
-                    .fill(randomColor)
+                    .fill(.customColor1)
                     .frame(height: 50)
                     .overlay {
                         Text(completionDate, style: .date)

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class CycleCountManager {
@@ -17,7 +18,7 @@ final class CycleCountManager {
     var totalStudyTime: Int {
         items.reduce(0) { $0 + $1.timeStudied }
     }
-    
+
     init(date: Date) {
         self.date = date
     }

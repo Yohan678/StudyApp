@@ -18,9 +18,6 @@ struct HistoryGridView: View {
         GridItem(.flexible())
     ]
     
-    static let colors: [Color] = [.red, .blue, .green, .orange, .purple]
-    @State private var selectedColor = colors.randomElement() ?? .gray
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -29,12 +26,13 @@ struct HistoryGridView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(cycleLogs) { log in
-                            HistoryBoxView(completionDate: log.date, totalStudiedTimes: log.totalStudyTime, randomColor: selectedColor)
+                            HistoryBoxView(completionDate: log.date, totalStudiedTimes: log.totalStudyTime)
                                 .padding()
                         }
                     }
                 }
                 .navigationTitle("Study Log")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     Button("Add 1 min Cycle") {
                         context.addStudyTime(seconds: 1)
